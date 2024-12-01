@@ -1,0 +1,18 @@
+{
+  "name": "todo_list_pro",
+  "version": "1.0.0",
+  "description": "<p align=\"center\"><a href=\"https://profile-forme.com\" target=\"_blank\"><img src=\"https://res.cloudinary.com/ecommerce2021/image/upload/v1659065987/avatar/logo_begsn1.png\" width=\"300\"></a></p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch --env-file=.env src/server.js",
+    "start": "node --env-file=.env src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1",
+    "morgan": "^1.10.0"
+  }
+}
