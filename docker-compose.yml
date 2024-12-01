@@ -1,7 +1,4 @@
-version: "3.8"
-
 services:
-  #* SQL( POSTGRES)
   postgresql:
     container_name: postgresql
     image: postgres:latest
@@ -12,8 +9,19 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       PGDATA: "/data/postgres"
     volumes:
-      - db_data/:/var/lib/postgresql/data/postgres
+      - db_data:/var/lib/postgresql/data/postgres
+      - ./migrations/:/docker-entrypoint-initdb.d/
     env_file:
       - .env
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    networks:
+      - backend
+
+volumes:
+  db_data:
+    driver: local
+
+networks:
+  backend:
+    driver: bridge
