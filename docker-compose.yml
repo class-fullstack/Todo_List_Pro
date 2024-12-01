@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  #* SQL( POSTGRES)
+  postgresql:
+    container_name: postgresql
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PGDATA: "/data/postgres"
+    volumes:
+      - db_data/:/var/lib/postgresql/data/postgres
+    env_file:
+      - .env
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
