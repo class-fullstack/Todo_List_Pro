@@ -18,6 +18,10 @@ db-build:
 	@echo "Budding Database $(POSTGRES_HOST_CONTAINER) 🐘"
 	docker-compose -f $(DOCKER_COMPOSE_DATABASE) up -d --build
 
+db-down:
+	@echo "Stopping Database $(POSTGRES_HOST_CONTAINER) 🐘"
+	docker-compose -f $(DOCKER_COMPOSE_DATABASE) down
+
 psql-db-container:
 	docker exec -it $(POSTGRES_HOST_CONTAINER) psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
 
