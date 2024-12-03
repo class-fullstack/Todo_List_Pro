@@ -1,4 +1,4 @@
-# Get file .env
+##################### ENV #####################
 include .env
 export $(shell sed 's/=.*//' .env)
 
