@@ -10,7 +10,6 @@ services:
       PGDATA: "/data/postgres"
     volumes:
       - db_data:/var/lib/postgresql/data/postgres
-      - ./migrations/:/docker-entrypoint-initdb.d/
     env_file:
       - .env
     ports:
