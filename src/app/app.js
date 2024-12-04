@@ -19,4 +19,10 @@ app.use(
 // Body parser
 app.use(express.json());
 
+// Routes
+const apiRouter = express.Router();
+apiRouter.use("/v1", require("./v1/routes"));
+
+app.use("/api", apiRouter);
+
 module.exports = app;
