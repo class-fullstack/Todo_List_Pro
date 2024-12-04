@@ -19,6 +19,9 @@ app.use(
 // Body parser
 app.use(express.json());
 
+// Connect to the database, Cache,...
+require("./share/database/pg.database").connect();
+
 // Routes
 const apiRouter = express.Router();
 apiRouter.use("/v1", require("./v1/routes"));
