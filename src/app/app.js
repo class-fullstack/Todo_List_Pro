@@ -28,4 +28,26 @@ apiRouter.use("/v1", require("./v1/routes"));
 
 app.use("/api", apiRouter);
 
+// Error handler
+// Not Found Handler (404)
+app.use((req, res, next) => {
+  const error = new Error("Not Found");
+  error.statusCode = 404;
+  next(error);
+});
+
+// General Error Handler
+app.use((error, req, res, next) => {
+  console.error(error); // Log the error for debugging purposes
+
+  // Send an appropriate response to the client
+  const statusCode = error.statusCode || 500;
+  const message = error.message || "Internal Server Error";
+
+  res.status(statusCode).json({
+    message,
+    ...(statusCode > 500 && { errorDetails: error.stack }), // Include stack trace only for 500 errors
+  });
+});
+
 module.exports = app;
