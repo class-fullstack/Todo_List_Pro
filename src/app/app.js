@@ -37,14 +37,12 @@ app.use((req, res, next) => {
 });
 
 // General Error Handler
-app.use((error, req, res, next) => {
-  console.error(error); // Log the error for debugging purposes
-
+app.use((error, __, res, ____) => {
   // Send an appropriate response to the client
   const statusCode = error.statusCode || 500;
   const message = error.message || "Internal Server Error";
 
-  res.status(statusCode).json({
+  return res.status(statusCode).json({
     message,
     ...(statusCode > 500 && { errorDetails: error.stack }), // Include stack trace only for 500 errors
   });
