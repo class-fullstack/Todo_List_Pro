@@ -9,6 +9,15 @@ class AuthController {
       return res.status(500).json({ error: error.message });
     }
   }
+
+  async register(_, res) {
+    try {
+      const result = await authService.register();
+      return res.status(201).json(result);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
 }
 
 module.exports = new AuthController();

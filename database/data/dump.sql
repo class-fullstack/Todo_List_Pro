@@ -382,7 +382,8 @@ CREATE TABLE public.users (
     password_hash character varying(255) NOT NULL,
     is_deleted boolean DEFAULT false,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    avatar_url character varying(255)
 );
 
 
@@ -474,7 +475,7 @@ COPY public.tasks (id, user_id, title, description, status, is_deleted, due_date
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: nguyentientai
 --
 
-COPY public.users (id, username, email, password_hash, is_deleted, created_at, updated_at) FROM stdin;
+COPY public.users (id, username, email, password_hash, is_deleted, created_at, updated_at, avatar_url) FROM stdin;
 \.
 
 
