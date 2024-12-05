@@ -1,8 +1,10 @@
 class AuthEntities {
-  constructor({ userId, email, accessToken }) {
+  constructor({ userId, email, accessToken = null, includeToken = false }) {
     this.userId = userId;
     this.email = email;
-    this.accessToken = accessToken;
+    if (accessToken) {
+      this.accessToken = accessToken;
+    }
   }
 }
 

@@ -2,15 +2,23 @@ const _ = require("lodash");
 
 class AuthValidate {
   static isFieldEmpty(obj, field) {
-    if (!_.isObject(obj)) {
+    if (typeof obj !== "object" || obj === null) {
+      throw new Error("Input is not a valid object.");
+    }
+
+    const value = obj[field];
+    return value === null || value === undefined || value === "";
+  }
+
+  static checkFields(obj, fields) {
+    if (typeof obj !== "object" || obj === null || !Array.isArray(fields)) {
       throw new Error("Invalid input: object and fields array are required.");
     }
 
-    // Retrieve the field value
-    const value = _.get(obj, field);
-
-    // Check if the value is null, undefined, or empty
-    return _.isNil(value) || _.isEmpty(value);
+    const invalidFields = fields.filter((field) =>
+      this.isFieldEmpty(obj, field)
+    );
+    return invalidFields;
   }
 
   static isEmailValid(email) {

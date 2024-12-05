@@ -1,6 +1,7 @@
 const AuthValidate = require("../../share/validates/auth.validate");
 const userModel = require("../models/user.model");
 const PasswordUtils = require("../../share/utils/password.utils");
+const AuthEntities = require("../../share/entities/auth.entities");
 class AuthService {
   async login() {
     return {
@@ -10,8 +11,16 @@ class AuthService {
 
   async register({ email, password }) {
     // B1. Check invalidation for email and password
-    if (AuthValidate.isFieldEmpty({ email, password })) {
-      throw new Error("Email and password are required");
+    const fieldsToCheck = ["email", "password"];
+    const invalidFields = AuthValidate.checkFields(
+      { email, password },
+      fieldsToCheck
+    );
+
+    if (invalidFields.length > 0) {
+      throw new Error(
+        `The following fields are required: ${invalidFields.join(", ")}`
+      );
     }
     // B2. Check email format
     if (!AuthValidate.isEmailValid(email)) {
@@ -19,7 +28,7 @@ class AuthService {
     }
 
     // B3. Check if the email is already registered
-    const isEmailRegistered = userModel.findOneByEmail({ email });
+    const isEmailRegistered = await userModel.findOneByEmail({ email });
 
     // B4. If the email is already registered, throw an error
     if (isEmailRegistered) {
@@ -30,11 +39,14 @@ class AuthService {
     const hashedPassword = PasswordUtils.hash({ password });
 
     // B6. Save the user to the database
-    const user = userModel.create({ email, password: hashedPassword });
+    const user = await userModel.create({ email, password: hashedPassword });
 
     // B7. Return the user and message
     return {
-      user,
+      user: new AuthEntities({
+        userId: user.id,
+        email: user.email,
+      }),
       message: "Registration successful",
     };
   }

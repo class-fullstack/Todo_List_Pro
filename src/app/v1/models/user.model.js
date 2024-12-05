@@ -5,7 +5,7 @@ class UserModel {
   async create({ email, password }) {
     try {
       const query =
-        "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *";
+        "INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING *";
       const values = [email, password];
       const { rows } = await pgDatabase.query(query, values);
       return rows[0];
