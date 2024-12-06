@@ -15,7 +15,7 @@ class PgDatabase {
   async connect() {
     try {
       const client = await this.pool.connect();
-      console.log("Connected to the PostgreSQL database");
+      console.log("Connected to the PostgreSQL database 🐘");
       return client;
     } catch (err) {
       console.error("Error connecting to the PostgreSQL database", err);
