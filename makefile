@@ -33,3 +33,6 @@ db-export:
 
 db-import:
 	cat ./database/data/dump.sql | docker exec -i $(POSTGRES_HOST_CONTAINER) psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
+
+db-psql:
+	docker exec -it $(POSTGRES_HOST_CONTAINER) psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
