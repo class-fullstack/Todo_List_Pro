@@ -3,7 +3,8 @@ const userModel = require("../models/user.model");
 const PasswordUtils = require("../../share/utils/password.utils");
 const AuthEntities = require("../../share/entities/auth.entities");
 class AuthService {
-  async login() {
+  async login(identify, password) {
+    // B1. Check invalidation for identify and password
     return {
       message: "Login successful",
     };
