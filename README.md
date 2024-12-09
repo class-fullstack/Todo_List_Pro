@@ -7,7 +7,7 @@
 <a href = "mailto:nguyentientai10@gmail.com"><img src="https://img.icons8.com/fluency/48/000000/send-mass-email.png" alt="License"></a>
 </p>
 
-## This is project practice of class Todo List pro
+## This is a project to class practice knowledge learn: Todo List pro
 
 ## Download Excel File
 
