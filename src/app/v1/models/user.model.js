@@ -24,6 +24,17 @@ class UserModel {
       throw Logger.logError(error);
     }
   }
+
+  async findOneByUsername({ username }) {
+    try {
+      const query = "SELECT * FROM users WHERE username = $1";
+      const values = [username];
+      const { rows } = await pgDatabase.query(query, values);
+      return rows[0];
+    } catch (error) {
+      throw Logger.logError(error);
+    }
+  }
 }
 
 module.exports = new UserModel();

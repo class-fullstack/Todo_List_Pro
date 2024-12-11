@@ -1,6 +1,8 @@
 //* LIB
 const express = require("express");
 const morgan = require("morgan");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 //* REQUIRE
 const Environment = require("./share/utils/env.utils");
@@ -18,6 +20,8 @@ app.use(
 );
 // Body parser
 app.use(express.json());
+app.use(bodyParser.json());
+app.use(cookieParser());
 
 // Connect to the database, Cache,...
 require("./share/database/pg.database").connect();
