@@ -7,6 +7,10 @@ const authConstants = {
     AccessToken: "15m",
     RefreshToken: "7d",
   },
+
+  KeyCookie: {
+    RefreshToken: "auth_refresh_token",
+  },
 };
 
 module.exports = authConstants;

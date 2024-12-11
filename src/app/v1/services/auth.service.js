@@ -6,6 +6,7 @@ const authConstants = require("../../share/constants/auth.contants");
 const TokenUtils = require("../../share/utils/token.utils");
 const authConfig = require("../../share/configs/auth.conf");
 const appConfig = require("../../share/configs/app.conf");
+const appConstants = require("../../share/constants/app.constants");
 class AuthService {
   async login({ identify, password }, res) {
     // B1. Check invalidation for identify and password
@@ -71,9 +72,9 @@ class AuthService {
     });
 
     // B6. Save the refresh token to cookie
-    res.cookie("refreshToken", refreshToken, {
+    res.cookie(authConstants.KeyCookie.RefreshToken, refreshToken, {
       httpOnly: true,
-      secure: appConfig.NodeEnv === "production",
+      secure: appConfig.NodeEnv === appConstants.NodeEnv.Production,
       sameSite: "none",
     });
 

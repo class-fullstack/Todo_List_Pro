@@ -3,6 +3,7 @@ const appConstants = {
 
   NodeEnv: {
     Development: process.env.NODE_ENV || "development",
+    Production: "production",
   },
 
   NodeEnvStatus: {
