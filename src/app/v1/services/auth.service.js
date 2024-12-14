@@ -134,6 +134,40 @@ class AuthService {
       message: "Registration successful",
     };
   }
+
+  async forgetPassword({ email }) {
+    // B1. Check invalidation for email
+    const fieldsToCheck = ["email"];
+    const invalidFields = AuthValidate.checkFields({ email }, fieldsToCheck);
+
+    if (invalidFields.length > 0) {
+      throw new Error(
+        `The following fields are required: ${invalidFields.join(", ")}`
+      );
+    }
+
+    // B2. Check email format
+    if (!AuthValidate.isEmailValid(email)) {
+      throw new Error("Email is invalid");
+    }
+
+    // B3. Check if the email is already registered
+    const user = await userModel.findOneByEmail({ email });
+
+    // B4. If the email is not registered, throw an error
+    if (!user) {
+      throw new Error("Email is not registered");
+    }
+
+    // B5. Return the user and message
+    return {
+      user: new AuthEntities({
+        userId: user.id,
+        email: user.email,
+      }),
+      message: "Forget password successful",
+    };
+  }
 }
 
 module.exports = new AuthService();

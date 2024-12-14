@@ -18,6 +18,15 @@ class AuthController {
       return res.status(500).json({ message: error.message });
     }
   }
+
+  async forgetPassword(req, res) {
+    try {
+      const result = await authService.forgetPassword(req.body);
+      return res.status(200).json(result);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
 }
 
 module.exports = new AuthController();
