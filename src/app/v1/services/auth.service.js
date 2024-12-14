@@ -7,6 +7,7 @@ const TokenUtils = require("../../share/utils/token.utils");
 const authConfig = require("../../share/configs/auth.conf");
 const appConfig = require("../../share/configs/app.conf");
 const appConstants = require("../../share/constants/app.constants");
+const emailUtils = require("../../share/utils/email.utils");
 class AuthService {
   async login({ identify, password }, res) {
     // B1. Check invalidation for identify and password
@@ -21,11 +22,6 @@ class AuthService {
       throw new Error(
         `The following fields are required: ${invalidFields.join(", ")}`
       );
-    }
-
-    const isPassword = AuthValidate.isPasswordValid(password);
-    if (!isPassword) {
-      throw new Error("Password is invalid");
     }
 
     // B2. Check invalidation for identify and password
@@ -158,6 +154,29 @@ class AuthService {
     if (!user) {
       throw new Error("Email is not registered");
     }
+
+    // B5. Generate a random password
+    const randomPassword = PasswordUtils.generateRandomPassword();
+
+    if (!randomPassword) {
+      throw new Error("Cannot generate random password");
+    }
+
+    // B6. Hash the random password
+    const hashedPassword = PasswordUtils.hash({ password: randomPassword });
+
+    // B7. Update the user's password
+    userModel.updateUserById({
+      id: user.id,
+      fields: { password_hash: hashedPassword },
+    });
+
+    emailUtils.sendEmail({
+      to: email,
+      subject: "Your New Password",
+      text: `Hello ${user.email},\n\nYour password has been reset. Your new password is:\n\n${randomPassword}\n\nPlease change your password after logging in.\n\nBest regards,\nClass02`,
+      html: `<p>Hello ${user.email},</p><p>Your password has been reset. Your new password is:</p><p><strong>${randomPassword}</strong></p><p>Please change your password after logging in.</p><p>Best regards,<br>Class O2</p>`,
+    });
 
     // B5. Return the user and message
     return {

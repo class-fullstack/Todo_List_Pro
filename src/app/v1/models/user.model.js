@@ -35,6 +35,21 @@ class UserModel {
       throw Logger.logError(error);
     }
   }
+
+  async updateUserById({ id, fields }) {
+    try {
+      const setClause = Object.keys(fields)
+        .map((key, index) => `${key} = $${index + 1}`)
+        .join(", ");
+      const values = Object.values(fields);
+      values.push(id);
+
+      const query = `UPDATE users SET ${setClause} WHERE id = $${values.length}`;
+      await pgDatabase.query(query, values);
+    } catch (error) {
+      throw Logger.logError(error);
+    }
+  }
 }
 
 module.exports = new UserModel();
