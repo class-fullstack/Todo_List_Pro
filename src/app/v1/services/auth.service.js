@@ -2,9 +2,9 @@ const AuthValidate = require("../../share/validates/auth.validate");
 const userModel = require("../models/user.model");
 const PasswordUtils = require("../../share/utils/password.utils");
 const AuthEntities = require("../../share/entities/auth.entities");
-const authConstants = require("../../share/constants/auth.contants");
+const authConstants = require("../../share/constants/auth.constants");
 const TokenUtils = require("../../share/utils/token.utils");
-const authConfig = require("../../share/configs/auth.conf");
+const tokenConfig = require("../../share/configs/token.conf");
 const appConfig = require("../../share/configs/app.conf");
 const appConstants = require("../../share/constants/app.constants");
 const emailUtils = require("../../share/utils/email.utils");
@@ -57,13 +57,13 @@ class AuthService {
     // B5. Create a access and refresh token
     const accessToken = TokenUtils.generateAccessToken({
       payload: { userId: user.id },
-      secret: authConfig.AccessSecret,
+      secret: tokenConfig.AccessSecret,
       expiresIn: authConstants.JwtTime.AccessToken,
     });
 
     const refreshToken = TokenUtils.generateRefreshToken({
       payload: { userId: user.id },
-      secret: authConfig.RefreshSecret,
+      secret: tokenConfig.RefreshSecret,
       expiresIn: authConstants.JwtTime.RefreshToken,
     });
 

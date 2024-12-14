@@ -8,6 +8,10 @@ const authConstants = {
     RefreshToken: "7d",
   },
 
+  JwtMessage: {
+    TokenExpiredError: "TokenExpiredError",
+  },
+
   KeyCookie: {
     RefreshToken: "auth_refresh_token",
   },

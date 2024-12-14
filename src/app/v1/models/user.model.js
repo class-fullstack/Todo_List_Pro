@@ -16,8 +16,20 @@ class UserModel {
 
   async findOneByEmail({ email }) {
     try {
-      const query = "SELECT * FROM users WHERE email = $1";
+      const query =
+        "SELECT * FROM users WHERE email = $1 AND is_deleted = false";
       const values = [email];
+      const { rows } = await pgDatabase.query(query, values);
+      return rows[0];
+    } catch (error) {
+      throw Logger.logError(error);
+    }
+  }
+
+  async findOneById({ id }) {
+    try {
+      const query = "SELECT * FROM users WHERE id = $1 AND is_deleted = false";
+      const values = [id];
       const { rows } = await pgDatabase.query(query, values);
       return rows[0];
     } catch (error) {
@@ -27,7 +39,8 @@ class UserModel {
 
   async findOneByUsername({ username }) {
     try {
-      const query = "SELECT * FROM users WHERE username = $1";
+      const query =
+        "SELECT * FROM users WHERE username = $1 AND is_deleted = false";
       const values = [username];
       const { rows } = await pgDatabase.query(query, values);
       return rows[0];
@@ -44,7 +57,7 @@ class UserModel {
       const values = Object.values(fields);
       values.push(id);
 
-      const query = `UPDATE users SET ${setClause} WHERE id = $${values.length}`;
+      const query = `UPDATE users SET ${setClause} WHERE id = $${values.length} AND is_deleted = false`;
       await pgDatabase.query(query, values);
     } catch (error) {
       throw Logger.logError(error);

@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const authConstants = require("../constants/auth.contants");
+const authConstants = require("../constants/auth.constants");
 
 class AuthValidate {
   static isFieldEmpty(obj, field) {
