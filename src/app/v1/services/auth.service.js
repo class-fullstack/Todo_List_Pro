@@ -187,6 +187,16 @@ class AuthService {
       message: "Forget password successful",
     };
   }
+
+  async logout(res) {
+    // B1. Clear the refresh token in the cookie
+    res.clearCookie(authConstants.KeyCookie.RefreshToken);
+
+    // B2. Return the message
+    return {
+      message: "Logout successful",
+    };
+  }
 }
 
 module.exports = new AuthService();

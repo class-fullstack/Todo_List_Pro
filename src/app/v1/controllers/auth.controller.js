@@ -27,6 +27,15 @@ class AuthController {
       return res.status(500).json({ message: error.message });
     }
   }
+
+  async logout(_, res) {
+    try {
+      const result = await authService.logout(res);
+      return res.status(200).json(result);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
 }
 
 module.exports = new AuthController();
