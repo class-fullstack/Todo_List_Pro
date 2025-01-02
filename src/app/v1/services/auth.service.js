@@ -75,6 +75,7 @@ class AuthService {
       sameSite: "none",
     });
 
+    // B7. Return the user and message
     return {
       user: new AuthEntities({
         userId: user.id,
@@ -201,7 +202,7 @@ class AuthService {
 
   async generateQRCode(req) {
     // B1. Get the user ID from the request
-    const { userId } = req;
+    const { userId, deviceId } = req;
 
     // B2. Check invalidation for user ID
     const fieldsToCheck = ["userId"];
@@ -220,7 +221,7 @@ class AuthService {
 
     // B4. Create a secret key (token)
     const encryptedData = TokenUtils.generateToken({
-      payload: { userId: user.id },
+      payload: { userId: user.id, deviceId },
       secret: tokenConfig.EncryptSecret,
       expiresIn: authConstants.JwtTime.QrCode,
     });

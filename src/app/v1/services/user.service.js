@@ -36,6 +36,11 @@ class UserService {
     // B1. Get params from req
     const { token } = req;
 
+    // B2. Check token is missing
+    if (!token) {
+      throw new Error("Token is missing");
+    }
+
     return {
       token,
       message: "Scan QR code successfully",
