@@ -205,8 +205,11 @@ class AuthService {
     const { userId, deviceId } = req;
 
     // B2. Check invalidation for user ID
-    const fieldsToCheck = ["userId"];
-    const invalidFields = AuthValidate.checkFields({ userId }, fieldsToCheck);
+    const fieldsToCheck = ["userId", "deviceId"];
+    const invalidFields = AuthValidate.checkFields(
+      { userId, deviceId },
+      fieldsToCheck
+    );
     if (invalidFields.length > 0) {
       throw new Error(
         `The following fields are required: ${invalidFields.join(", ")}`
@@ -221,7 +224,7 @@ class AuthService {
 
     // B4. Create a secret key (token)
     const encryptedData = TokenUtils.generateToken({
-      payload: { userId: user.id, deviceId },
+      payload: { userId: user.id, deviceId: deviceId },
       secret: tokenConfig.EncryptSecret,
       expiresIn: authConstants.JwtTime.QrCode,
     });
