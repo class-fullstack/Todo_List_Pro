@@ -23,7 +23,7 @@ class DeviceIdModel {
     try {
       const query = `
         SELECT *
-        FROM devices
+        FROM deviceId
         WHERE device_id = $1;
       `;
       const values = [deviceId];
@@ -37,9 +37,9 @@ class DeviceIdModel {
   async updateUserIdByDeviceId({ userId, deviceId }) {
     try {
       const query = `
-        UPDATE devices
-        SET user_id = $1
-        WHERE device_id = $2
+        UPDATE deviceId
+        SET userId = $1
+        WHERE deviceId = $2
         RETURNING *;
       `;
       const values = [userId, deviceId];

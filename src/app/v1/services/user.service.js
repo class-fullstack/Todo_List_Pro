@@ -3,6 +3,7 @@ const UserEntities = require("../../share/entities/user.entities");
 const TokenUtils = require("../../share/utils/token.utils");
 const tokenConfig = require("../../share/configs/token.conf");
 const socketService = require("../../share/database/socket-io.database");
+const deviceIdModel = require("../models/deviceId.model");
 
 class UserService {
   async getUserById(req) {
@@ -64,7 +65,13 @@ class UserService {
       throw new Error("User not found");
     }
 
-    // B6. Send socket
+    //B6. Update device with that user
+    deviceIdModel.updateUserIdByDeviceId({
+      userId: resultInfo.userId,
+      deviceId: resultInfo.deviceId,
+    });
+
+    // B7. Send socket
     socketService.sendMessage(resultInfo.deviceId, {
       title: "Login QR",
       content: "Login QR successfully ",
