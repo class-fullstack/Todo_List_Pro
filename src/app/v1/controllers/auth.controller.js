@@ -36,6 +36,15 @@ class AuthController {
       return res.status(500).json({ message: error.message });
     }
   }
+
+  async generateQRCode(req, res) {
+    try {
+      const result = await authService.generateQRCode(req.body);
+      return res.status(200).json(result);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
 }
 
 module.exports = new AuthController();

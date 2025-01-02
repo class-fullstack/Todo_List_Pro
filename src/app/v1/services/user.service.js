@@ -31,6 +31,16 @@ class UserService {
       message: "Get user successfully",
     };
   }
+
+  async scanQrCode(req) {
+    // B1. Get params from req
+    const { token } = req;
+
+    return {
+      token,
+      message: "Scan QR code successfully",
+    };
+  }
 }
 
 module.exports = new UserService();

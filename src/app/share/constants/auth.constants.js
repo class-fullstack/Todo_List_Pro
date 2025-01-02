@@ -6,6 +6,7 @@ const authConstants = {
   JwtTime: {
     AccessToken: "15m",
     RefreshToken: "7d",
+    QrCode: "1d",
   },
 
   JwtMessage: {

@@ -8,6 +8,7 @@ const tokenConfig = require("../../share/configs/token.conf");
 const appConfig = require("../../share/configs/app.conf");
 const appConstants = require("../../share/constants/app.constants");
 const emailUtils = require("../../share/utils/email.utils");
+const QRCode = require("../../share/utils/qrcode.utils");
 class AuthService {
   async login({ identify, password }, res) {
     // B1. Check invalidation for identify and password
@@ -195,6 +196,48 @@ class AuthService {
     // B2. Return the message
     return {
       message: "Logout successful",
+    };
+  }
+
+  async generateQRCode(req) {
+    // B1. Get the user ID from the request
+    const { userId } = req;
+
+    // B2. Check invalidation for user ID
+    const fieldsToCheck = ["userId"];
+    const invalidFields = AuthValidate.checkFields({ userId }, fieldsToCheck);
+    if (invalidFields.length > 0) {
+      throw new Error(
+        `The following fields are required: ${invalidFields.join(", ")}`
+      );
+    }
+
+    // B3. Check if the user ID is valid
+    const user = await userModel.findOneById({ id: userId });
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // B4. Create a secret key (token)
+    const encryptedData = TokenUtils.generateToken({
+      payload: { userId: user.id },
+      secret: tokenConfig.EncryptSecret,
+      expiresIn: authConstants.JwtTime.QrCode,
+    });
+
+    // B5. Generate a URL with token
+    const baseURL = process.env.BASE_URL; // Ensure BASE_URL is defined in environment variables
+    const qrURL = `${baseURL}/api/v1/users/scan-qr-code?token=${encodeURIComponent(
+      encryptedData
+    )}`;
+
+    // B6. Generate a QR code from the URL
+    const qrCode = await QRCode.generateQRCode(qrURL);
+
+    return {
+      dataImage: qrCode, // The QR code image
+      url: qrURL, // The generated URL
+      message: "Generate QR code with URL successful",
     };
   }
 }
