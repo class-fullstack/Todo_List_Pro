@@ -31,7 +31,7 @@ class TokenUtils {
   }
 
   static removeBearerPrefix(token) {
-    if (token.startsWith("Bearer ")) {
+    if (token?.startsWith("Bearer ")) {
       return token.replace("Bearer ", "");
     }
     return token;

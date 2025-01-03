@@ -4,6 +4,7 @@ const TokenUtils = require("../../share/utils/token.utils");
 const tokenConfig = require("../../share/configs/token.conf");
 const socketService = require("../../share/database/socket-io.database");
 const deviceIdModel = require("../models/deviceId.model");
+const deviceIdService = require("./deviceId.service");
 
 class UserService {
   async getUserById(req) {
@@ -38,7 +39,7 @@ class UserService {
 
   async scanQrCode(req) {
     // B1. Get params from req
-    const { token } = req;
+    const { token } = req.query;
 
     // B2. Check token is missing
     if (!token) {
@@ -56,7 +57,12 @@ class UserService {
       throw new Error("Token is invalid");
     }
 
-    // B5 Check user have existed
+    // B5 Check user have matching with token
+    if (Number(resultInfo.userId) !== Number(req.userId)) {
+      throw new Error("User not matching");
+    }
+
+    // B6 Check user have existed
     const user = await userModel.findOneById({
       id: resultInfo.userId,
     });
@@ -65,16 +71,22 @@ class UserService {
       throw new Error("User not found");
     }
 
-    //B6. Update device with that user
+    //B7. Update device with that user
     deviceIdModel.updateUserIdByDeviceId({
       userId: resultInfo.userId,
       deviceId: resultInfo.deviceId,
     });
 
-    // B7. Send socket
+    // B8. Send socket
     socketService.sendMessage(resultInfo.deviceId, {
       title: "Login QR",
       content: "Login QR successfully ",
+    });
+
+    // B9. Update user id by device id
+    deviceIdService.updateUserIdByDeviceId({
+      userId: resultInfo.userId,
+      deviceId: resultInfo.deviceId,
     });
 
     return {
@@ -82,6 +94,7 @@ class UserService {
         userId: user.id,
         email: user.email,
       }),
+      deviceId: resultInfo.deviceId,
       token,
       message: "Scan QR code successfully",
     };

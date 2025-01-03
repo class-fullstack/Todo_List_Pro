@@ -202,7 +202,8 @@ class AuthService {
 
   async generateQRCode(req) {
     // B1. Get the user ID from the request
-    const { userId, deviceId } = req;
+    const { userId } = req.body;
+    const deviceId = req.deviceId;
 
     // B2. Check invalidation for user ID
     const fieldsToCheck = ["userId", "deviceId"];

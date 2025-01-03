@@ -5,9 +5,9 @@ class DeviceIdModel {
   async upsertDeviceId({ deviceId }) {
     try {
       const query = `
-        INSERT INTO deviceId (deviceId)
+        INSERT INTO device_ids (device_id)
         VALUES ($1)
-        ON CONFLICT (deviceId)
+        ON CONFLICT (device_id)
         DO NOTHING
         RETURNING *;
       `;
@@ -23,7 +23,7 @@ class DeviceIdModel {
     try {
       const query = `
         SELECT *
-        FROM deviceId
+        FROM device_ids
         WHERE device_id = $1;
       `;
       const values = [deviceId];
@@ -37,9 +37,9 @@ class DeviceIdModel {
   async updateUserIdByDeviceId({ userId, deviceId }) {
     try {
       const query = `
-        UPDATE deviceId
-        SET userId = $1
-        WHERE deviceId = $2
+        UPDATE device_ids
+        SET user_id = $1
+        WHERE device_id = $2
         RETURNING *;
       `;
       const values = [userId, deviceId];
