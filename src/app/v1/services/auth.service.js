@@ -9,9 +9,11 @@ const appConfig = require("../../share/configs/app.conf");
 const appConstants = require("../../share/constants/app.constants");
 const emailUtils = require("../../share/utils/email.utils");
 const QRCode = require("../../share/utils/qrcode.utils");
+const deviceIdService = require("./deviceId.service");
 class AuthService {
-  async login({ identify, password }, res) {
+  async login(req, res) {
     // B1. Check invalidation for identify and password
+    const { identify, password } = req.body;
     const fieldsToCheck = ["identify", "password"];
 
     const invalidFields = AuthValidate.checkFields(
@@ -75,7 +77,13 @@ class AuthService {
       sameSite: "none",
     });
 
-    // B7. Return the user and message
+    // B7. Update user id by device id
+    deviceIdService.updateUserIdByDeviceId({
+      userId: user.id,
+      deviceId: req.deviceId,
+    });
+
+    // B8. Return the user and message
     return {
       user: new AuthEntities({
         userId: user.id,

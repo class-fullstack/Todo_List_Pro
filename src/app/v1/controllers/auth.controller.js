@@ -3,7 +3,7 @@ const authService = require("../services/auth.service");
 class AuthController {
   async login(req, res) {
     try {
-      const result = await authService.login(req.body, res);
+      const result = await authService.login(req, res);
       return res.status(200).json(result);
     } catch (error) {
       return res.status(500).json({ message: error.message });

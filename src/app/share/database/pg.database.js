@@ -2,7 +2,7 @@ const { Pool } = require("pg");
 const { pgConfig } = require("../configs/db.conf");
 
 class PgDatabase {
-  constructor() {
+  constructor({ showLogs = false } = {}) {
     this.pool = new Pool({
       user: pgConfig.User,
       host: pgConfig.Host,
@@ -10,6 +10,7 @@ class PgDatabase {
       password: pgConfig.Password,
       port: pgConfig.Port,
     });
+    this.showLogs = showLogs;
   }
 
   async connect() {
@@ -26,6 +27,10 @@ class PgDatabase {
   async query(text, params) {
     const client = await this.connect();
     try {
+      if (this.showLogs) {
+        console.log("Executing query:", text);
+        console.log("With parameters:", params);
+      }
       const res = await client.query(text, params);
       return res;
     } finally {
@@ -34,4 +39,4 @@ class PgDatabase {
   }
 }
 
-module.exports = new PgDatabase();
+module.exports = new PgDatabase({ showLogs: true }); // Set showLogs to true to enable logging
