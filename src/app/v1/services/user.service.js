@@ -40,6 +40,7 @@ class UserService {
   async scanQrCode(req) {
     // B1. Get params from req
     const { token } = req.query;
+    const deviceId = req.deviceId;
 
     // B2. Check token is missing
     if (!token) {
@@ -62,7 +63,12 @@ class UserService {
       throw new Error("User not matching");
     }
 
-    // B6 Check user have existed
+    // B6. Check device must different with device id in token
+    if (resultInfo.deviceId === deviceId) {
+      throw new Error("Device must different with device id in token");
+    }
+
+    // B7 Check user have existed
     const user = await userModel.findOneById({
       id: resultInfo.userId,
     });
@@ -71,19 +77,19 @@ class UserService {
       throw new Error("User not found");
     }
 
-    //B7. Update device with that user
+    // B8. Update device with that user
     deviceIdModel.updateUserIdByDeviceId({
       userId: resultInfo.userId,
       deviceId: resultInfo.deviceId,
     });
 
-    // B8. Send socket
+    // B9. Send socket
     socketService.sendMessage(resultInfo.deviceId, {
       title: "Login QR",
       content: "Login QR successfully ",
     });
 
-    // B9. Update user id by device id
+    // B10. Update user id by device id
     deviceIdService.updateUserIdByDeviceId({
       userId: resultInfo.userId,
       deviceId: resultInfo.deviceId,
