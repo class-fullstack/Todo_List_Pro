@@ -64,7 +64,7 @@ class UserService {
     }
 
     // B6. Check device must different with device id in token
-    if (resultInfo.deviceId === deviceId) {
+    if (resultInfo.deviceId !== deviceId) {
       throw new Error("Device must different with device id in token");
     }
 
