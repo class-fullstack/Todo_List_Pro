@@ -1,5 +1,5 @@
 const appConstants = {
-  Port: process.env.PORT || 5000,
+  Port: 5000,
 
   NodeEnv: {
     Development: process.env.NODE_ENV || "development",

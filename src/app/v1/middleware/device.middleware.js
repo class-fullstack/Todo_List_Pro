@@ -3,7 +3,7 @@ const deviceIdModel = require("../models/deviceId.model");
 class DeviceMiddleware {
   static async validateDevice(req, res, next) {
     // B1. Get device from header
-    const deviceId = req.headers["device-id"];
+    const deviceId = req?.headers["device-id"];
 
     // B2. Check if device is missing
     if (!deviceId) {
