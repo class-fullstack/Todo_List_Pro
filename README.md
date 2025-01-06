@@ -13,7 +13,7 @@
 
 ## If you need to download the Excel file, you can get it from the link below: 🫱
 
-## [This is link file Excel](https://docs.google.com/spreadsheets/d/1XcllT_Vb813orPOm1R1U6D5Negct-CW5ZLMWIcd-n_k/edit?usp=sharing)
+## [This is a link file Excel](https://docs.google.com/spreadsheets/d/1XcllT_Vb813orPOm1R1U6D5Negct-CW5ZLMWIcd-n_k/edit?usp=sharing)
 
 ## Tài Khoản Donate li Cf để có động lực code cho anh em tham khảo 😄😄
 
