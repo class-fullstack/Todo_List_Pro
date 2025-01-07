@@ -11,7 +11,7 @@
 
 ## Download Excel File
 
-## If you need to download the Excel file, you can get it from the link below: 🫱
+## If you need to download the Excel file, you can get it from the link below:
 
 ## [This is a link file Excel](https://docs.google.com/spreadsheets/d/1XcllT_Vb813orPOm1R1U6D5Negct-CW5ZLMWIcd-n_k/edit?usp=sharing)
 
