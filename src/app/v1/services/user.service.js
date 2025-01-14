@@ -74,7 +74,7 @@ class UserService {
     });
 
     if (!user) {
-      throw new Error("User not found");
+      throw new Error("User not found!");
     }
 
     // B8. Update device with that user
@@ -86,6 +86,7 @@ class UserService {
     // B9. Send socket
     socketService.sendMessage(resultInfo.deviceId, {
       title: "Login QR",
+      deviceId: resultInfo.deviceId,
       content: "Login QR successfully ",
     });
 
